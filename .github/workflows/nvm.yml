@@ -4,5 +4,5 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: nvm install
+      - run: nvm install 14.3.0
         shell: bash --login {0}
