@@ -4,13 +4,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      - run: node --version
       - uses: actions/checkout@v2
       - run: |
           nvm install
-          echo $NVM_BIN
           echo "::set-env name=PATH::${NVM_BIN}:${PATH}"
         shell: bash --login {0}
-      - run: echo $PATH
       - run: node --version
-      - run: node --version
-        shell: bash --login {0}
