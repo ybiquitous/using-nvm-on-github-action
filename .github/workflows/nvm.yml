@@ -7,7 +7,7 @@ jobs:
       - run: node --version
       - uses: actions/checkout@v2
       - run: |
-          nvm install
+          nvm install --latest-npm --no-progress
           echo "::set-env name=PATH::${NVM_BIN}:${PATH}"
         shell: bash --login {0}
       - run: node --version
