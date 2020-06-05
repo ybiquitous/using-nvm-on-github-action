@@ -6,3 +6,4 @@ jobs:
     steps:
       - run: nvm install 14.3.0
         shell: bash --login {0}
+      - run: node --version
