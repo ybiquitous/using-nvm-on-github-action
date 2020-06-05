@@ -3,9 +3,9 @@ on: [push]
 jobs:
   run:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash --login {}
     steps:
       - run: nvm install 14.3.0
-        shell: bash --login {0}
       - run: node --version
-      - run: node --version
-        shell: bash --login {0}
