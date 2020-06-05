@@ -4,8 +4,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - run: nvm install 14.3.0
+      - uses: actions/checkout@v2
+      - run: nvm install
         shell: bash --login {0}
-      - run: node --version
       - run: node --version
         shell: bash --login {0}
