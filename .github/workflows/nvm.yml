@@ -1,0 +1,13 @@
+name: nvm
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: node --version
+      - uses: actions/checkout@v2
+      - run: |
+          nvm install
+          echo "::set-env name=PATH::${NVM_BIN}:${PATH}"
+        shell: bash --login {0}
+      - run: node --version
