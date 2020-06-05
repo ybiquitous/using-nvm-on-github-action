@@ -1,0 +1,7 @@
+name: nvm
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: nvm install
