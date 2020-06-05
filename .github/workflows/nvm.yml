@@ -11,7 +11,6 @@ jobs:
           echo "::set-env name=PATH::${NVM_BIN}:${PATH}"
         shell: bash --login {0}
       - run: echo $PATH
-      - run: where node
       - run: node --version
       - run: node --version
         shell: bash --login {0}
