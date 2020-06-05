@@ -5,7 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: nvm install
+      - run: |
+          nvm install
+          echo $NVM_BIN
+          echo "::set-env name=PATH::${NVM_BIN}:${PATH}"
         shell: bash --login {0}
       - run: node --version
         shell: bash --login {0}
