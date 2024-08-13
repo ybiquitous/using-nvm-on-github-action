@@ -1,5 +1,9 @@
 name: nvm
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
   run:
     runs-on: ubuntu-latest
