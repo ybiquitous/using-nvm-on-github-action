@@ -8,6 +8,11 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      # Optional: Set up pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - run: node --version
       - uses: actions/checkout@v4
       - run: |
