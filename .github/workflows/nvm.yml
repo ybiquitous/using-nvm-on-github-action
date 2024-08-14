@@ -13,21 +13,24 @@ jobs:
         with:
           version: 9
 
-      - run: node --version
+      - name: Show pre-installed Node.js version
+        run: node --version
       - uses: actions/checkout@v4
       - name: Install Node.js via nvm
         shell: bash --login {0}
         run: |
           nvm install --latest-npm --no-progress
           echo "$(dirname $(nvm which node))" >> $GITHUB_PATH
-      - run: node --version
+      - name: Show newly installed Node.js version
+        run: node --version
 
       # Optional: Cache npm dependencies
       - name: Get npm cache directory
         id: npm-cache-dir
         shell: bash
         run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - name: Store npm cache
+        uses: actions/cache@v4
         id: npm-cache
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
@@ -40,7 +43,8 @@ jobs:
         id: yarn-cache-dir
         shell: bash
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - name: Store yarn cache
+        uses: actions/cache@v4
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir.outputs.dir }}
@@ -53,8 +57,9 @@ jobs:
         id: pnpm-cache-dir
         shell: bash
         run: echo "dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        id: pnpm-cache
         with:
           path: ${{ steps.pnpm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
