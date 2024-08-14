@@ -15,10 +15,11 @@ jobs:
 
       - run: node --version
       - uses: actions/checkout@v4
-      - run: |
+      - name: Install Node.js via nvm
+        shell: bash --login {0}
+        run: |
           nvm install --latest-npm --no-progress
           echo "$(dirname $(nvm which node))" >> $GITHUB_PATH
-        shell: bash --login {0}
       - run: node --version
 
       # Optional: Cache npm dependencies
