@@ -1,13 +1,61 @@
 name: nvm
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      # Optional: Set up pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - run: node --version
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: |
           nvm install --latest-npm --no-progress
-          echo "::set-env name=PATH::${NVM_BIN}:${PATH}"
+          echo "$(dirname $(nvm which node))" >> $GITHUB_PATH
         shell: bash --login {0}
       - run: node --version
+
+      # Optional: Cache npm dependencies
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # Optional: Cache Yarn v1 dependencies
+      - name: Get yarn cache directory
+        id: yarn-cache-dir
+        shell: bash
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # Optional: Cache pnpm store
+      - name: Get pnpm store directory
+        id: pnpm-cache-dir
+        shell: bash
+        run: echo "dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
