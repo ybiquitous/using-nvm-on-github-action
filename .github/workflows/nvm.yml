@@ -11,7 +11,7 @@ jobs:
       # Optional: Set up pnpm
       - uses: pnpm/action-setup@v4
         with:
-          version: latest
+          version: 9
 
       - run: node --version
       - uses: actions/checkout@v4
